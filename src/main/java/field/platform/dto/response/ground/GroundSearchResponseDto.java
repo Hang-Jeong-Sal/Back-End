@@ -10,10 +10,10 @@ import lombok.Data;
 public class GroundSearchResponseDto {
     private int status;
     private int count;
-    private List<Map<String,String>> data;
+    private List<Map<String,Object>> data;
 
     @Builder
-    public GroundSearchResponseDto(int status, int count, List<Map<String, String>> data) {
+    public GroundSearchResponseDto(int status, int count, List<Map<String, Object>> data) {
         this.status = status;
         this.count = count;
         this.data = data;

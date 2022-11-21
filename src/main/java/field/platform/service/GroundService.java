@@ -1,5 +1,6 @@
 package field.platform.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import field.platform.dto.request.ground.GroundSearchConditionDto;
 import field.platform.dto.response.ground.GroundSearchDto;
 import field.platform.dto.response.ground.GroundSearchResponseDto;
@@ -22,22 +23,14 @@ public class GroundService{
         GroundSearchResponseDtoBuilder beforeData = GroundSearchResponseDto.builder()
                 .status(0)
                 .count(search.size());
-        List<Map<String,String>> data = search.stream()
+        List<Map<String,Object>> data = search.stream()
                 .map(this::createNewMap)
                 .collect(Collectors.toList());
         return beforeData.data(data).build();
     }
 
-    private Map<String, String> createNewMap(GroundSearchDto groundSearchDto) {
-        Map<String, String> newMap = new HashMap<>();
-        newMap.put("id", String.valueOf(groundSearchDto.getId()));
-        newMap.put("title", groundSearchDto.getTitle());
-        newMap.put("address", groundSearchDto.getAddress());
-        newMap.put("picture", groundSearchDto.getPicture());
-        newMap.put("price", String.valueOf(groundSearchDto.getPrice()));
-        newMap.put("address_1", groundSearchDto.getAddress_1());
-        newMap.put("address_2", groundSearchDto.getAddress_2());
-        newMap.put("address_3", groundSearchDto.getAddress_3());
-        return newMap;
+    private Map<String, Object> createNewMap(GroundSearchDto groundSearchDto) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.convertValue(groundSearchDto, Map.class);
     }
 }
