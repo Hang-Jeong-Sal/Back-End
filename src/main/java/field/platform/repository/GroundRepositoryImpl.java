@@ -8,8 +8,10 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import field.platform.dto.request.ground.GroundSearchConditionDto;
+import field.platform.dto.response.ground.GroundSearchDto;
 import field.platform.dto.response.ground.GroundSearchResponseDto;
-import field.platform.dto.response.ground.QGroundSearchResponseDto;
+//import field.platform.dto.response.ground.QGroundSearchResponseDto;
+import field.platform.dto.response.ground.QGroundSearchDto;
 import java.awt.print.PageFormat;
 import java.awt.print.Pageable;
 import java.awt.print.Printable;
@@ -22,20 +24,22 @@ public class GroundRepositoryImpl implements GroundRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
 
-    public List<GroundSearchResponseDto> search(GroundSearchConditionDto groundSearchConditionDto) {
+    public List<GroundSearchDto> search(GroundSearchConditionDto groundSearchConditionDto) {
         return queryFactory
-                .select(new QGroundSearchResponseDto(
-                        ground.id.as("ground_id"),
+                .select(new QGroundSearchDto(
+                        ground.id,
                         ground.title,
-                        ground.image,
                         ground.address,
-                        ground.price
+                        ground.image,
+                        ground.price,
+                        ground.address1DepthName,
+                        ground.address2DepthName,
+                        ground.address3DepthName
                 ))
                 .from(ground)
                 .where(dongNameEquals(groundSearchConditionDto.getDong()))
                 .orderBy(ground.createAt.asc())
                 .fetch();
-
     }
 
 

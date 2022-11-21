@@ -2,6 +2,7 @@ package field.platform.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import field.platform.controller.GroundController;
 import field.platform.domain.Ground;
 import field.platform.domain.GroundStatus;
 import field.platform.dto.request.ground.GroundSearchConditionDto;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 class GroundRepositoryTest {
     @Autowired
     private GroundRepository groundRepository;
+    @Autowired
+    private GroundController groundController;
     @Test
     public void 확인() {
         Ground ground = new Ground(".com", "민지네 텃밭", "동작구 신대방동", 10000, GroundStatus.ONSALE, LocalDateTime.MIN,
@@ -33,8 +36,9 @@ class GroundRepositoryTest {
         groundRepository.save(ground);
         groundRepository.save(ground1);
         groundRepository.save(ground2);
-
-        List<GroundSearchResponseDto> allByAddress3DepthName = groundRepository.search(new GroundSearchConditionDto("신대방동"));
+        GroundSearchResponseDto data = groundController.grounds("신대방동");
+        System.out.println("신대방동 = " + data);
+//        List<GroundSearchResponseDto> allByAddress3DepthName = groundRepository.search(new GroundSearchConditionDto("신대방동"));
 
 
 

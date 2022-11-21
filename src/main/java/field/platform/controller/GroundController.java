@@ -17,7 +17,7 @@ public class GroundController {
     private final GroundService groundService;
 
     @GetMapping("api/grounds")
-    public List<GroundSearchResponseDto> grounds(@RequestParam String dong) {
+    public GroundSearchResponseDto grounds(@RequestParam String dong) {
         return groundService.grounds(new GroundSearchConditionDto(dong));
     }
 }

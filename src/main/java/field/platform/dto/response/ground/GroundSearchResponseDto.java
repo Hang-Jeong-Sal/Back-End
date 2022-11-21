@@ -1,23 +1,21 @@
 package field.platform.dto.response.ground;
 
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
+import java.util.List;
+import java.util.Map;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class GroundSearchResponseDto {
-    private Long groundId;
-    private String groundTitle;
-    private String groundImageUrl;
-    private String address;
-    private int price;
-    @QueryProjection
-    public GroundSearchResponseDto(Long groundId, String groundTitle, String groundImageUrl, String address,
-                                   int price) {
-        this.groundId = groundId;
-        this.groundTitle = groundTitle;
-        this.groundImageUrl = groundImageUrl;
-        this.address = address;
-        this.price = price;
+    private int status;
+    private int count;
+    private List<Map<String,String>> data;
+
+    @Builder
+    public GroundSearchResponseDto(int status, int count, List<Map<String, String>> data) {
+        this.status = status;
+        this.count = count;
+        this.data = data;
     }
 }
