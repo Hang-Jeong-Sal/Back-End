@@ -18,11 +18,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 
 @RequiredArgsConstructor
-public class GroundRepositoryImpl {
+public class GroundRepositoryImpl implements GroundRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
 
-    List<GroundSearchResponseDto> search(GroundSearchConditionDto groundSearchConditionDto) {
+    public List<GroundSearchResponseDto> search(GroundSearchConditionDto groundSearchConditionDto) {
         return queryFactory
                 .select(new QGroundSearchResponseDto(
                         ground.id.as("ground_id"),
@@ -33,7 +33,7 @@ public class GroundRepositoryImpl {
                 ))
                 .from(ground)
                 .where(dongNameEquals(groundSearchConditionDto.getDong()))
-                .orderBy(ground.createAt.desc())
+                .orderBy(ground.createAt.asc())
                 .fetch();
 
     }

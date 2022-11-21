@@ -40,9 +40,7 @@ public class Ground extends Timestamped {
 
     @Column(nullable = false)
     private String address;
-    @Column(nullable = false)
     private String address1DepthName;
-    @Column(nullable = false)
     private String address2DepthName;
 
     @Column(nullable = false)
@@ -75,7 +73,7 @@ public class Ground extends Timestamped {
 
     @Builder
     public Ground(String image, String title, String address, int price, GroundStatus status,
-                  LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude) {
+                  LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude, String address3DepthName) {
         this.image = image;
         this.title = title;
         this.address = address;
@@ -86,6 +84,7 @@ public class Ground extends Timestamped {
         this.areaSize = areaSize;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.address3DepthName = address3DepthName;
     }
 
     @OneToMany(mappedBy = "ground", cascade = CascadeType.ALL)
