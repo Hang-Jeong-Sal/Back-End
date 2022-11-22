@@ -9,12 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -40,7 +37,9 @@ public class Ground extends Timestamped {
 
     @Column(nullable = false)
     private String address;
+    @Column(nullable = false)
     private String address1DepthName;
+    @Column(nullable = false)
     private String address2DepthName;
 
     @Column(nullable = false)
@@ -73,7 +72,7 @@ public class Ground extends Timestamped {
 
     @Builder
     public Ground(String image, String title, String address, int price, GroundStatus status,
-                  LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude, String address3DepthName) {
+                  LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude, String address1DepthName, String address2DepthName, String address3DepthName) {
         this.image = image;
         this.title = title;
         this.address = address;
@@ -84,6 +83,8 @@ public class Ground extends Timestamped {
         this.areaSize = areaSize;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.address1DepthName = address1DepthName;
+        this.address2DepthName = address2DepthName;
         this.address3DepthName = address3DepthName;
     }
 

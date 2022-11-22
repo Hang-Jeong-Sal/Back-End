@@ -1,6 +1,8 @@
 package field.platform.dto.response.ground;
 
 import com.querydsl.core.annotations.QueryProjection;
+import field.platform.domain.Ground;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,6 +16,13 @@ public class GroundSearchDto {
     private String address_1;
     private String address_2;
     private String address_3;
+
+
+    public GroundSearchDto of(Ground ground) {
+        return new GroundSearchDto(ground.getId(), ground.getTitle(), ground.getAddress(), ground.getImage(),
+                ground.getPrice(), ground.getAddress2DepthName(), ground.getAddress2DepthName(),
+                ground.getAddress3DepthName());
+    }
     @QueryProjection
     public GroundSearchDto(Long id, String title, String address, String picture, int price, String address_1,
                                    String address_2, String address_3) {

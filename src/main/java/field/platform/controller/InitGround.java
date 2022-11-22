@@ -29,13 +29,13 @@ public class InitGround {
         public void init() {
             Ground ground = new Ground(".com", "민지네 텃밭", "동작구 신대방동", 10000, GroundStatus.ONSALE, LocalDateTime.MIN,
                     LocalDateTime.MAX,
-                    10000, 12.3, 42.3,"신대방동");
+                    10000, 12.3, 42.3, "서울시","동작구", "신대방동");
             Ground ground1 = new Ground(".com", "민지네 밭", "동작구 신대방동", 10000, GroundStatus.ONSALE, LocalDateTime.MIN,
                     LocalDateTime.MAX,
-                    10000, 12.3, 42.3,"신대방동");
+                    10000, 12.3, 42.3, "서울시", "동작구", "신대방동");
             Ground ground2 = new Ground(".com", "민지네", "동작구 신대방동", 10000, GroundStatus.ONSALE, LocalDateTime.MIN,
                     LocalDateTime.MAX,
-                    10000, 12.3, 42.3,"신대방동");
+                    10000, 12.3, 42.3,"서울시","동작구" , "신대방동");
             em.persist(ground);
             em.persist(ground1);
             em.persist(ground2);
