@@ -21,4 +21,6 @@ public class GroundController {
         GroundSearchResponseDto grounds = groundService.grounds(new GroundSearchConditionDto(dong));
         return grounds;
     }
+
+
 }
