@@ -18,13 +18,12 @@ import lombok.NoArgsConstructor;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
-    @Column(name = "category_id")
-    private Long id;
-
     @Enumerated(EnumType.STRING)
+    @Column(name = "category_id")
     private CategoryName categoryName;
+
+
+
 
 
 }
