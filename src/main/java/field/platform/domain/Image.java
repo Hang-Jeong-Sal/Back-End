@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,4 +31,9 @@ public class Image {
     @Column(name = "image_url")
     private String url;
 
+    @Builder
+    public Image(Ground ground, String url) {
+        this.ground = ground;
+        this.url = url;
+    }
 }

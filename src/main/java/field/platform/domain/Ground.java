@@ -64,7 +64,6 @@ public class Ground extends Timestamped {
     @OneToMany(mappedBy = "ground", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
-
     private LocalDateTime startDate;
     private LocalDateTime finishDate;
 
@@ -72,10 +71,13 @@ public class Ground extends Timestamped {
 
     private double latitude;
     private double longitude;
+    private String content;
 
     @Builder
     public Ground(String title, String address, int price, GroundStatus status,
-                  LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude, String address1DepthName, String address2DepthName, String address3DepthName) {
+                  LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude,
+                  String address1DepthName, String address2DepthName, String address3DepthName, String content) {
+        this.content = content;
         this.title = title;
         this.address = address;
         this.price = price;
@@ -98,6 +100,7 @@ public class Ground extends Timestamped {
             new GroundCategoryRelation(this, category);
         }
     }
+
 
 
 
