@@ -5,19 +5,22 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.bytebuddy.asm.Advice.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class GroundPostRequestDto {
     private Long seller;
     private List<String> imgUrl;
-    private String category;
+    private List<String> category;
     private String address;
     private int area;
     private int price;
-    private LocalDateTime renderStartDate;
-    private LocalDateTime renderFinishDate;
+    private String renderStartDate;
+    private String renderFinishDate;
     private String content;
     private String address1DepthName;
     private String address2DepthName;

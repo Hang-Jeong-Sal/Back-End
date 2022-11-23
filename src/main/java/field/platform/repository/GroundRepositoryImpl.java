@@ -1,12 +1,14 @@
 package field.platform.repository;
 
 import static field.platform.domain.QGround.ground;
+import static field.platform.domain.QImage.*;
 import static org.springframework.util.StringUtils.hasText;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import field.platform.domain.QImage;
 import field.platform.dto.request.ground.GroundSearchConditionDto;
 import field.platform.dto.response.ground.GroundSearchDto;
 import field.platform.dto.response.ground.GroundSearchResponseDto;
@@ -30,7 +32,6 @@ public class GroundRepositoryImpl implements GroundRepositoryCustom{
                         ground.id,
                         ground.title,
                         ground.address,
-                        ground.image,
                         ground.price,
                         ground.address1DepthName,
                         ground.address2DepthName,

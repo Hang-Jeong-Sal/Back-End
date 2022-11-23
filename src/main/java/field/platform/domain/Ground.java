@@ -11,7 +11,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -74,10 +73,9 @@ public class Ground extends Timestamped {
     private String content;
 
     @Builder
-    public Ground(Member member, String title, String address, int price, GroundStatus status,
+    public Ground(String title, String address, int price, GroundStatus status,
                   LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude,
                   String address1DepthName, String address2DepthName, String address3DepthName, String content) {
-        this.member = member;
         this.content = content;
         this.title = title;
         this.address = address;
@@ -102,6 +100,10 @@ public class Ground extends Timestamped {
         }
     }
 
+    public void setSeller(Member member) {
+        member.getGrounds().add(this);
+        this.member = member;
+    }
 
 
 

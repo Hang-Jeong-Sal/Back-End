@@ -1,5 +1,6 @@
 package field.platform.controller;
 
+import field.platform.domain.Ground;
 import field.platform.dto.request.ground.GroundPostRequestDto;
 import field.platform.dto.request.ground.GroundSearchConditionDto;
 import field.platform.dto.response.ground.GroundPostResponseDto;
@@ -27,7 +28,7 @@ public class GroundController {
     }
 
     @PostMapping("api/grounds")
-    public GroundPostResponseDto groundsPost(@RequestBody GroundPostRequestDto groundPostRequestDto) {
+    public Ground groundsPost(@RequestBody GroundPostRequestDto groundPostRequestDto) {
         return groundService.groundsPost(groundPostRequestDto);
     }
 }
