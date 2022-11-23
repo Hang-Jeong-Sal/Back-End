@@ -1,5 +1,6 @@
 package field.platform.dto.request.ground;
 
+import field.platform.domain.Member;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import net.bytebuddy.asm.Advice.Local;
 @Data
 @AllArgsConstructor
 public class GroundPostRequestDto {
+    private Long seller;
     private List<String> imgUrl;
     private String category;
     private String address;

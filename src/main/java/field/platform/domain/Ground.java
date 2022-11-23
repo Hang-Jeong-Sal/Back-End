@@ -74,9 +74,10 @@ public class Ground extends Timestamped {
     private String content;
 
     @Builder
-    public Ground(String title, String address, int price, GroundStatus status,
+    public Ground(Member member, String title, String address, int price, GroundStatus status,
                   LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude,
                   String address1DepthName, String address2DepthName, String address3DepthName, String content) {
+        this.member = member;
         this.content = content;
         this.title = title;
         this.address = address;
