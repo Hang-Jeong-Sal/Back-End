@@ -12,7 +12,7 @@ import field.platform.dto.request.ground.GroundPostRequestDto;
 import field.platform.dto.request.ground.GroundSearchConditionDto;
 import field.platform.dto.response.ground.GroundDetailResponseDataDto;
 import field.platform.dto.response.ground.GroundPostResponseDto;
-import field.platform.dto.response.ground.GroundSearchDto;
+import field.platform.dto.response.ground.GroundSearchDataDto;
 import field.platform.dto.response.ground.GroundSearchResponseDto;
 import field.platform.repository.CategoryRepository;
 import field.platform.repository.GroundCategoryRelationRepository;
@@ -41,7 +41,7 @@ public class GroundService{
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public GroundSearchResponseDto grounds(GroundSearchConditionDto groundsRequestDTO) {
-        List<GroundSearchDto> search = groundRepository.search(groundsRequestDTO);
+        List<GroundSearchDataDto> search = groundRepository.search(groundsRequestDTO);
         List<Map<String, Object>> data = search.stream()
                 .map(this::createNewMap)
                 .collect(Collectors.toList());
@@ -51,8 +51,8 @@ public class GroundService{
                 .data(data).build();
     }
 
-    private Map<String, Object> createNewMap(GroundSearchDto groundSearchDto) {
-        Map<String, Object> object= objectMapper.convertValue(groundSearchDto, Map.class);
+    private Map<String, Object> createNewMap(GroundSearchDataDto groundSearchDataDto) {
+        Map<String, Object> object= objectMapper.convertValue(groundSearchDataDto, Map.class);
         List<Image> byGroundId = imageRepository.findByGroundId((Long) object.get("id"));
         List<String> imgUrls = new ArrayList<>();
         for (Image image : byGroundId) {
@@ -121,10 +121,14 @@ public class GroundService{
 
     }
 
+
+
     private static String[] getDate(String dateTime) {
         return dateTime.split("-");
     }
 }
+
+
 
 //    public GroundPostResponseDto groundsPost(GroundPostRequestDto groundPostRequestDto) {
 //        Optional<Member> byId = memberRepository.findById(groundPostRequestDto.getSeller());

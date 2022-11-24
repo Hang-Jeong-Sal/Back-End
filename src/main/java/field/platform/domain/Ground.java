@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -73,8 +74,8 @@ public class Ground extends Timestamped {
     private double longitude;
     private String content;
 
-    @ManyToMany(mappedBy = "likes")
-    private List<Member> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "ground", cascade = CascadeType.ALL)
+    private List<MemberGroundLikes> likes = new ArrayList<>();
     @Builder
     public Ground(String title, String address, int price, GroundStatus status,
                   LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude,
@@ -104,6 +105,16 @@ public class Ground extends Timestamped {
         this.member = member;
     }
 
+    public List<String> getCategory() {
+        return groundCategoryRelations.stream()
+                .map(groundCategoryRelation -> groundCategoryRelation.getCategory().getCategoryName().name())
+                .collect(Collectors.toList());
+    }
 
+    public List<String> getImgUrl() {
+        return images.stream()
+                .map(Image::getUrl)
+                .collect(Collectors.toList());
+    }
 
 }

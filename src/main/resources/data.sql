@@ -12,5 +12,3 @@ insert into category(category_id)
 VALUES ('스쿨팜');
 insert into category(category_id)
 VALUES ('베란다텃밭');
-
-
