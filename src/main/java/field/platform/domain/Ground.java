@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
@@ -72,6 +73,8 @@ public class Ground extends Timestamped {
     private double longitude;
     private String content;
 
+    @ManyToMany(mappedBy = "likes")
+    private List<Member> likes = new ArrayList<>();
     @Builder
     public Ground(String title, String address, int price, GroundStatus status,
                   LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude,
@@ -94,11 +97,7 @@ public class Ground extends Timestamped {
     @OneToMany(mappedBy = "ground", cascade = CascadeType.ALL)
     private List<GroundCategoryRelation> groundCategoryRelations = new ArrayList<>();
 
-    public void setCategory(List<Category> categories) {
-        for (Category category : categories) {
-            new GroundCategoryRelation(this, category);
-        }
-    }
+
 
     public void setSeller(Member member) {
         member.getGrounds().add(this);

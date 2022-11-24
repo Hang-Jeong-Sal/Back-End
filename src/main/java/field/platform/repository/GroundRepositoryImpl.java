@@ -35,7 +35,8 @@ public class GroundRepositoryImpl implements GroundRepositoryCustom{
                         ground.price,
                         ground.address1DepthName,
                         ground.address2DepthName,
-                        ground.address3DepthName
+                        ground.address3DepthName,
+                        ground.areaSize
                 ))
                 .from(ground)
                 .where(dongNameEquals(groundSearchConditionDto.getDong()))
