@@ -2,6 +2,7 @@ package field.platform.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,10 +32,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Ground> grounds = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "member_like",
-            joinColumns = @JoinColumn(name = "member_id"),
-            inverseJoinColumns = @JoinColumn(name = "ground_id"))
-    private List<Ground> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<MemberGroundLikes> likes = new ArrayList<>();
 }
 

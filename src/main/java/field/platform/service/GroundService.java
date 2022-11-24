@@ -121,10 +121,14 @@ public class GroundService{
 
     }
 
+
+
     private static String[] getDate(String dateTime) {
         return dateTime.split("-");
     }
 }
+
+
 
 //    public GroundPostResponseDto groundsPost(GroundPostRequestDto groundPostRequestDto) {
 //        Optional<Member> byId = memberRepository.findById(groundPostRequestDto.getSeller());

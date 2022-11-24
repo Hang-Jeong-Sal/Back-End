@@ -73,8 +73,8 @@ public class Ground extends Timestamped {
     private double longitude;
     private String content;
 
-    @ManyToMany(mappedBy = "likes")
-    private List<Member> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "ground", cascade = CascadeType.ALL)
+    private List<MemberGroundLikes> likes = new ArrayList<>();
     @Builder
     public Ground(String title, String address, int price, GroundStatus status,
                   LocalDateTime startDate, LocalDateTime finishDate, int areaSize, double latitude, double longitude,
