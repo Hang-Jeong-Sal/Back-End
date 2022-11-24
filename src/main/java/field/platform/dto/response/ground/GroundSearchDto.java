@@ -38,7 +38,6 @@ public class GroundSearchDto {
         this.address_2 = address_2;
         this.address_3 = address_3;
         this.area = area;
-
     }
 
 }

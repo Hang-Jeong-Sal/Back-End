@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,4 +30,11 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Ground> grounds = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "member_like",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "ground_id"))
+    private List<Ground> likes = new ArrayList<>();
 }
+

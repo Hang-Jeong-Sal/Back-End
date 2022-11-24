@@ -7,6 +7,7 @@ import field.platform.dto.response.ground.GroundPostResponseDto;
 import field.platform.dto.response.ground.GroundSearchResponseDto;
 import field.platform.service.GroundService;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ public class GroundController {
     }
 
     @PostMapping("api/grounds")
-    public Ground groundsPost(@RequestBody GroundPostRequestDto groundPostRequestDto) {
+    public GroundPostResponseDto groundsPost(@RequestBody GroundPostRequestDto groundPostRequestDto) {
         return groundService.groundsPost(groundPostRequestDto);
     }
 }
