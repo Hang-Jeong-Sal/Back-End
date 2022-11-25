@@ -10,9 +10,9 @@ import field.platform.domain.Image;
 import field.platform.domain.Member;
 import field.platform.dto.request.ground.GroundPostRequestDto;
 import field.platform.dto.request.ground.GroundSearchConditionDto;
-import field.platform.dto.response.ground.GroundDetailResponseDataDto;
+import field.platform.dto.response.ground.GroundDetailResponseDto;
 import field.platform.dto.response.ground.GroundPostResponseDto;
-import field.platform.dto.response.ground.GroundSearchDataDto;
+import field.platform.dto.data.ground.GroundSearchDataDto;
 import field.platform.dto.response.ground.GroundSearchResponseDto;
 import field.platform.repository.CategoryRepository;
 import field.platform.repository.GroundCategoryRelationRepository;
@@ -109,7 +109,7 @@ public class GroundService{
             }
             createGround.setSeller(byId.get());
             groundRepository.save(createGround);
-            Map<String, Object> map = objectMapper.convertValue(GroundDetailResponseDataDto.of(createGround,
+            Map<String, Object> map = objectMapper.convertValue(GroundDetailResponseDto.of(createGround,
                     groundPostRequestDto.getImgUrl(), categories), Map.class);
             return new GroundPostResponseDto(0);
 
@@ -122,6 +122,24 @@ public class GroundService{
     }
 
 
+    public GroundDetailResponseDto details(Long groundId) {
+        Optional<Ground> findGroundById = groundRepository.findById(groundId);
+        if (findGroundById.isPresent()) {
+            Ground ground = findGroundById.get();
+            List<Image> imgUrls = imageRepository.findByGroundId(groundId);
+            List<GroundCategoryRelation> categories = groundCategoryRelationRepository.findByGround(ground);
+
+            return GroundDetailResponseDto.of(ground,
+                    imgUrls.stream().map(Image::getUrl).collect(Collectors.toList()),
+                    categories.stream()
+                            .map(groundCategoryRelation -> groundCategoryRelation.getCategory().getCategoryName()
+                                    .name())
+                            .collect(Collectors.toList()));
+
+        } else {
+            return new GroundDetailResponseDto(0);
+        }
+    }
 
     private static String[] getDate(String dateTime) {
         return dateTime.split("-");
