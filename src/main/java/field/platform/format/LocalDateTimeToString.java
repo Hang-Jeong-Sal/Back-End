@@ -9,7 +9,7 @@ public class LocalDateTimeToString {
 
         stringBuilder.append(localDateTime.getYear());
         stringBuilder.append('-');
-        stringBuilder.append(localDateTime.getMonth());
+        stringBuilder.append(localDateTime.getMonth().getValue());
         stringBuilder.append('-');
         stringBuilder.append(localDateTime.getDayOfMonth());
         return stringBuilder.toString();

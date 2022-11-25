@@ -1,9 +1,7 @@
 package field.platform.repository;
 
-import field.platform.domain.Ground;
 import field.platform.dto.request.ground.GroundSearchConditionDto;
-import field.platform.dto.response.ground.GroundSearchDataDto;
-import field.platform.dto.response.ground.GroundSearchResponseDto;
+import field.platform.dto.data.ground.GroundSearchDataDto;
 import java.util.List;
 
 public interface GroundRepositoryCustom {

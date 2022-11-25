@@ -1,13 +1,10 @@
-package field.platform.dto.response.ground;
+package field.platform.dto.data.ground;
 
 import com.querydsl.core.annotations.QueryProjection;
 import field.platform.domain.Ground;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.tomcat.jni.Local;
 
 @Data
 @NoArgsConstructor
