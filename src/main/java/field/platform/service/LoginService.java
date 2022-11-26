@@ -6,10 +6,10 @@ import field.platform.repository.MemberRepository;
 import field.platform.security.kakao.KakaoOauth2;
 import field.platform.security.kakao.KakaoUserInfo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +18,7 @@ public class LoginService {
 
     private final MemberRepository memberRepository;
     private final KakaoOauth2 kakaoOauth2;
-    private final AuthenticationManager authenticationManager;
+    //private final AuthenticationManager authenticationManager;
 
     public Member kakaoLogin(String authorizedCode) {
         //kakakOAuth2를 통해 카카오 사용자 정보 조회
@@ -39,9 +39,9 @@ public class LoginService {
             memberRepository.save(kakaoMember);
         }
 
-        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
-        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(username, password);
+//        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return member;
     }

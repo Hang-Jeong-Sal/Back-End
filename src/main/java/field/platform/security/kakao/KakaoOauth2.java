@@ -18,7 +18,7 @@ public class KakaoOauth2 {
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         //인가코드 -> 엑세스 토큰
         String accessToken = getAccessToken(authorizedCode);
-        //엑세스 토큰 -> 카카오 사용자 정
+        //엑세스 토큰 -> 카카오 사용자 정보
         KakaoUserInfo userInfo = getUserInfoByToken(accessToken);
         return userInfo;
     }
@@ -47,6 +47,7 @@ public class KakaoOauth2 {
                 String.class
         );
 
+
         //json => 액세스 토큰 파싱
         String tokenJson = response.getBody();
         JSONObject rjson = new JSONObject(tokenJson);
@@ -55,10 +56,10 @@ public class KakaoOauth2 {
         return accessToken;
     }
 
-    private KakaoUserInfo getUserInfoByToken(String accessToken) {
+    public KakaoUserInfo getUserInfoByToken(String accessToken) {
         //HttpHeader 오브젝트 추가
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "bearer " + accessToken);
+        headers.add("Authorization", "Bearer " + accessToken);
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         //httpheader와 httpbody 하나의 오브젝트에 담기
@@ -68,7 +69,7 @@ public class KakaoOauth2 {
         //http 요청
         ResponseEntity<String> response = rt.exchange(
                 "https://kapi.kakao.com/v2/user/me",
-                HttpMethod.POST,
+                HttpMethod.GET,
                 kakaoProfileRequest,
                 String.class
         );
@@ -77,7 +78,7 @@ public class KakaoOauth2 {
         Long id = body.getLong("id");
         String email = body.getJSONObject("kakao_account").getString("email");
         String username = body.getJSONObject("properties").getString("nickname");
-        String profile = body.getJSONObject("properties").getString("thumbnail_image_url");
+        String profile = body.getJSONObject("properties").getString("profile_image");
         return new KakaoUserInfo(id, email, username, profile);
     }
 }
