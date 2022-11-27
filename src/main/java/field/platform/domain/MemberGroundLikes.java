@@ -7,9 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,5 +25,8 @@ public class MemberGroundLikes {
     @JoinColumn(name = "ground_id")
     private Ground ground;
 
-
+    public MemberGroundLikes(Member member, Ground ground) {
+        this.member = member;
+        this.ground = ground;
+    }
 }
