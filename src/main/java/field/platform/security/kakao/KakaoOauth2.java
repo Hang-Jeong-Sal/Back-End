@@ -23,33 +23,6 @@ public class KakaoOauth2 {
         return userInfo;
     }
 
-    //return 카카오 로그인 페이지
-    public void getAuthorizedCode() {
-        String REST_API_KEY = "ae3d3854486ace63b03a73e0e1881b8b";
-        String REDIRECT_URI = "http://localhost:8080/members/signup"; //프론트 redirect uri 인듯?
-
-        URI uri = UriComponentsBuilder
-                .fromUriString("https://kapi.kakao.com")
-                .path("/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code")
-                .encode()
-                .build()
-                .expand(REST_API_KEY, REDIRECT_URI)
-                .toUri();
-
-        HttpHeaders headers = new HttpHeaders();
-
-        RestTemplate rt = new RestTemplate();
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = rt.exchange(
-                uri.toString(),
-                HttpMethod.GET,
-                request,
-                String.class
-        );
-
-    }
-
     private String getAccessToken(String authorizedCode) {
         //httpheader 생성
         HttpHeaders headers = new HttpHeaders();
@@ -84,7 +57,7 @@ public class KakaoOauth2 {
     }
 
 
-    public KakaoUserInfo getUserInfoByToken(String accessToken) {
+    private KakaoUserInfo getUserInfoByToken(String accessToken) {
         //HttpHeader 오브젝트 추가
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
