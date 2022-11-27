@@ -19,10 +19,11 @@ public class Category {
 
     @Id
     @Enumerated(EnumType.STRING)
-    @Column(name = "category_id")
     private CategoryName categoryName;
 
-
+    public String getCategoryName() {
+        return this.getCategoryName();
+    }
 
 
 

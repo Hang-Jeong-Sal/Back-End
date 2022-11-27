@@ -23,6 +23,7 @@ public class LoginController {
     @GetMapping("/members/signup")
     public LoginResultDto kakaoLogin(@RequestHeader(name = "code") String code) {
         Member member = loginService.kakaoLogin(code);
+
         LoginResultDto loginResultDto = new LoginResultDto();
         loginResultDto.setData(member);
         return loginResultDto;
@@ -33,6 +34,7 @@ public class LoginController {
         log.debug("Token:" + token);
         LoginResultDto loginResultDto = new LoginResultDto();
         KakaoUserInfo userInfoByToken = kakaoOauth2.getUserInfoByToken(token);
+        userInfoByToken.getProfile();
         if (userInfoByToken == null) {
             loginResultDto.setResultCode("403");
             loginResultDto.setResultMessage("there's no member");

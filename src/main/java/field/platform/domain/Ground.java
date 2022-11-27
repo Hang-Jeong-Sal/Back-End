@@ -105,12 +105,6 @@ public class Ground extends Timestamped {
         this.member = member;
     }
 
-    public List<String> getCategory() {
-        return groundCategoryRelations.stream()
-                .map(groundCategoryRelation -> groundCategoryRelation.getCategory().getCategoryName().name())
-                .collect(Collectors.toList());
-    }
-
     public List<String> getImgUrl() {
         return images.stream()
                 .map(Image::getUrl)
