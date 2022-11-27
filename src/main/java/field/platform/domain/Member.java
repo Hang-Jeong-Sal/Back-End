@@ -4,22 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import field.platform.dto.login.LoginRequestDto;
+import lombok.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
 public class Member {
-
-    public Member(String email, String username, String password, String profile, UserRole role) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.profile = profile;
-        this.role = role;
-    }
 
     @Id
     @GeneratedValue
@@ -32,6 +25,9 @@ public class Member {
     private String password;
     private String profile;
 
+    private String authorizedCode;
+    private String token;
+
     //add for login
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
@@ -43,11 +39,17 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberGroundLikes> likes = new ArrayList<>();
 
-    public Member(String email, String username, String password, String profile) {
+    public Member(String email, String username, String profile) {
         this.email = email;
         this.username = username;
-        this.password = password;
         this.profile = profile;
+    }
+
+    public Member(String email, String username, String profile, UserRole role) {
+        this.email = email;
+        this.username = username;
+        this.profile = profile;
+        this.role = role;
     }
 }
 

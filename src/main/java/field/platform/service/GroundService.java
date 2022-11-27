@@ -44,6 +44,7 @@ public class GroundService{
         List<GroundSearchDataDto> search = groundRepository.search(groundsRequestDTO);
         List<Map<String, Object>> data = search.stream()
                 .map(searchData -> objectMapper.convertValue(searchData, Map.class))
+                .map(map -> (Map<String, Object>) map)
                 .collect(Collectors.toList());
         return GroundSearchResponseDto.builder()
                 .status(0)

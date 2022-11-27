@@ -2,6 +2,7 @@ package field.platform.service;
 
 import field.platform.domain.Member;
 import field.platform.domain.UserRole;
+import field.platform.dto.login.LoginRequestDto;
 import field.platform.repository.MemberRepository;
 import field.platform.security.kakao.KakaoOauth2;
 import field.platform.security.kakao.KakaoUserInfo;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,17 +28,15 @@ public class LoginService {
         KakaoUserInfo userInfo = kakaoOauth2.getUserInfo(authorizedCode);
         Long kakaoId = userInfo.getId();
         String username = userInfo.getUsername();
-        String password = username;
         String email = userInfo.getEmail();
         String profile = userInfo.getProfile();
 
-        Member member = new Member(email, username, password, profile);
-
+        Member member = new Member(email, username, profile);
         Member kakaoMember = memberRepository.findByKakaoId(kakaoId).orElse(null);
 
         if (kakaoMember == null) {
-            UserRole role = UserRole.USER;
-            kakaoMember = new Member(email, username, password, profile, role);
+            UserRole role = UserRole.KAKAO;
+            kakaoMember = new Member(email, username, profile, role);
             memberRepository.save(kakaoMember);
         }
 
@@ -44,5 +45,11 @@ public class LoginService {
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return member;
+    }
+
+    public ResponseEntity signup(LoginRequestDto requestDto) {
+        Member member = requestDto.toMember();
+        memberRepository.save(member);
+        return new ResponseEntity("회원가입완료", HttpStatus.OK);
     }
 }

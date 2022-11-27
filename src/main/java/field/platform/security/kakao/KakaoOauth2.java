@@ -1,15 +1,15 @@
 package field.platform.security.kakao;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import org.json.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 
 @Component
@@ -56,7 +56,8 @@ public class KakaoOauth2 {
         return accessToken;
     }
 
-    public KakaoUserInfo getUserInfoByToken(String accessToken) {
+
+    private KakaoUserInfo getUserInfoByToken(String accessToken) {
         //HttpHeader 오브젝트 추가
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
