@@ -28,6 +28,11 @@ public class LoginController {
         return loginResultDto;
     }
 
+    @GetMapping("/members/authorization")
+    public void getAuthorizedCode() {
+        kakaoOauth2.getAuthorizedCode();
+    }
+
     @GetMapping("/members/login")
     public LoginResultDto login(@RequestHeader(name = "access_token") String token) {
         log.debug("Token:" + token);

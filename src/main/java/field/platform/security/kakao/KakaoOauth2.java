@@ -1,15 +1,15 @@
 package field.platform.security.kakao;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import org.json.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 
 @Component
@@ -21,6 +21,33 @@ public class KakaoOauth2 {
         //엑세스 토큰 -> 카카오 사용자 정보
         KakaoUserInfo userInfo = getUserInfoByToken(accessToken);
         return userInfo;
+    }
+
+    //return 카카오 로그인 페이지
+    public void getAuthorizedCode() {
+        String REST_API_KEY = "ae3d3854486ace63b03a73e0e1881b8b";
+        String REDIRECT_URI = "http://localhost:8080/members/signup"; //프론트 redirect uri 인듯?
+
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://kapi.kakao.com")
+                .path("/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code")
+                .encode()
+                .build()
+                .expand(REST_API_KEY, REDIRECT_URI)
+                .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+
+        RestTemplate rt = new RestTemplate();
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = rt.exchange(
+                uri.toString(),
+                HttpMethod.GET,
+                request,
+                String.class
+        );
+
     }
 
     private String getAccessToken(String authorizedCode) {
@@ -55,6 +82,7 @@ public class KakaoOauth2 {
 
         return accessToken;
     }
+
 
     public KakaoUserInfo getUserInfoByToken(String accessToken) {
         //HttpHeader 오브젝트 추가
