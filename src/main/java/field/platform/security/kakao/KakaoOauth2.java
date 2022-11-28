@@ -32,7 +32,7 @@ public class KakaoOauth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "ae3d3854486ace63b03a73e0e1881b8b");
-        params.add("redirect_uri", "http://localhost:8080/members/signup");
+        params.add("redirect_uri", "http://localhost:3000/auth/login");
         params.add("code", authorizedCode);
 
         //httpheader와 httpbody 하나의 오브젝트에 담기
@@ -41,7 +41,7 @@ public class KakaoOauth2 {
 
         //http 요청
         ResponseEntity<String> response = rt.exchange(
-                "https://kauth.kakao.com/oauth.token",
+                "https://kauth.kakao.com/oauth/token",
                 HttpMethod.POST,
                 kakaoTokenRequest,
                 String.class
@@ -50,6 +50,7 @@ public class KakaoOauth2 {
 
         //json => 액세스 토큰 파싱
         String tokenJson = response.getBody();
+        System.out.println("tokenJson:"+tokenJson);
         JSONObject rjson = new JSONObject(tokenJson);
         String accessToken = rjson.getString("access_token");
 
@@ -80,6 +81,7 @@ public class KakaoOauth2 {
         String email = body.getJSONObject("kakao_account").getString("email");
         String username = body.getJSONObject("properties").getString("nickname");
         String profile = body.getJSONObject("properties").getString("profile_image");
+        System.out.println(body);
         return new KakaoUserInfo(id, email, username, profile);
     }
 }

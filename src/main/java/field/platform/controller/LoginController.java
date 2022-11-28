@@ -1,6 +1,7 @@
 package field.platform.controller;
 
 import field.platform.domain.Member;
+import field.platform.dto.login.KaKaoReqDto;
 import field.platform.dto.login.LoginResultDto;
 import field.platform.dto.login.LoginRequestDto;
 import field.platform.service.LoginService;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +20,9 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/members/kakao/login")
-    public LoginResultDto kakaoLogin(@RequestBody String code) {
-        Member member = loginService.kakaoLogin(code);
+    public LoginResultDto kakaoLogin(@RequestBody KaKaoReqDto kaKaoReqDto) {
+        System.out.println("code:"+kaKaoReqDto.getCode());
+        Member member = loginService.kakaoLogin(kaKaoReqDto.getCode());
         LoginResultDto loginResultDto = new LoginResultDto();
         loginResultDto.setData(member);
         return loginResultDto;

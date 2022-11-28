@@ -36,7 +36,7 @@ public class LikeService {
             Member member = memberRepository.findByToken(accessToken);
             Optional<MemberGroundLikes> memberGroundLikes = memberGroundLikesRepository.findByGroundAndMember(ground, member);
             if (memberGroundLikes.isEmpty()) {
-                MemberGroundLikes addMemberGroundLikes = new MemberGroundLikes(member, ground);
+                MemberGroundLikes newMemberGroundLikes = new MemberGroundLikes(member, ground);
                 return new ResponseEntity("좋아요 on", HttpStatus.OK);
             } else {
                 memberGroundLikesRepository.delete(memberGroundLikes.get());
