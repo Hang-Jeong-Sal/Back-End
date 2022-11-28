@@ -32,7 +32,7 @@ public class KakaoOauth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "ae3d3854486ace63b03a73e0e1881b8b");
-        params.add("redirect_uri", "http://localhost:3000/auth/login");
+        params.add("redirect_uri", "http://mygreen.kro.kr:3000/auth/login");
         params.add("code", authorizedCode);
 
         //httpheader와 httpbody 하나의 오브젝트에 담기
