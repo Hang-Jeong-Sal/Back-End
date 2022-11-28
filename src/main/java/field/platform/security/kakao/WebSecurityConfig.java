@@ -1,4 +1,4 @@
-//package field.platform.security;
+//package field.platform.security.kakao;
 //
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
