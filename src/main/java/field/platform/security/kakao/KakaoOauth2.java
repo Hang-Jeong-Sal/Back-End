@@ -50,6 +50,7 @@ public class KakaoOauth2 {
 
         //json => 액세스 토큰 파싱
         String tokenJson = response.getBody();
+        System.out.println("tokenJson:"+tokenJson);
         JSONObject rjson = new JSONObject(tokenJson);
         String accessToken = rjson.getString("access_token");
 
@@ -79,6 +80,7 @@ public class KakaoOauth2 {
         String email = body.getJSONObject("kakao_account").getString("email");
         String username = body.getJSONObject("properties").getString("nickname");
         String profile = body.getJSONObject("properties").getString("profile_image");
+        System.out.println(body);
         return new KakaoUserInfo(id, email, username, profile);
     }
 }

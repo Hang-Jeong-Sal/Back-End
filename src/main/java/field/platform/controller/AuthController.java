@@ -1,8 +1,11 @@
 package field.platform.controller;
 
 import field.platform.domain.Member;
+
 import field.platform.dto.jwt.TokenDto;
 import field.platform.dto.login.KakaoLoginRequestDto;
+
+
 import field.platform.dto.login.LoginResultDto;
 import field.platform.dto.login.LoginRequestDto;
 import field.platform.service.AuthService;
@@ -10,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,11 +24,13 @@ public class AuthController {
 
     private final AuthService authService;
 
+
     @GetMapping("/kakao/login")
     public TokenDto kakaoLogin(@RequestBody KakaoLoginRequestDto kakaoLoginRequestDto) {
         return authService.kakaoLogin(kakaoLoginRequestDto);
-    }
 
+    }
+}
 
 //    @PostMapping("/signup")
 //    public ResponseEntity signup(@RequestBody LoginRequestDto loginRequestDto) {
@@ -49,4 +56,4 @@ public class AuthController {
 //        loginResultDto.setData(userInfoByToken);
 //        return loginResultDto;
 //    }
-}
+

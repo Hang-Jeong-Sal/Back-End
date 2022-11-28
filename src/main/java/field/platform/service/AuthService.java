@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.core.context.SecurityContextHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,6 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthService {
@@ -102,11 +104,13 @@ public class AuthService {
         }
 
         CustomKakaoIdAuthToken customKakaoIdAuthToken = new CustomKakaoIdAuthToken(kakaoId, "");
-
+        log.info("1");
 
         Authentication authentication = authenticationManager.authenticate(customKakaoIdAuthToken);
+        log.debug("Authentication = {}",authentication);
 
         Member findMember = customKakaoAuthService.getMember(kakaoId);
+        log.info("3");
 
         String accessToken = tokenProvider.createAccessTokenByKakaoId(kakaoId, findMember.getAuthorities());
         if (refreshTokenRepository.existsByKey(String.valueOf(kakaoId))) {
