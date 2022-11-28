@@ -1,7 +1,3 @@
-insert into member(member_id, password, profile, username)
-VALUES (1, '1234', 'img.com', '김원표');
-
-
 insert into category(category_name)
 VALUES ('spare');
 insert into category(category_name)
@@ -12,3 +8,8 @@ insert into category(category_name)
 VALUES ('school');
 insert into category(category_name)
 VALUES ('terrace');
+
+insert into authority(authority_name)
+VALUES ('ROLE_KAKAO');
+insert into authority(authority_name)
+VALUES ('ROLE_USER');

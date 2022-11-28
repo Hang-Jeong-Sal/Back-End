@@ -1,9 +1,11 @@
 package field.platform.controller;
 
 import field.platform.domain.Member;
+import field.platform.dto.jwt.TokenDto;
+import field.platform.dto.login.KakaoLoginRequestDto;
 import field.platform.dto.login.LoginResultDto;
 import field.platform.dto.login.LoginRequestDto;
-import field.platform.service.LoginService;
+import field.platform.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -11,26 +13,23 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/auth")
 @Slf4j
-public class LoginController {
+public class AuthController {
 
-    private final LoginService loginService;
+    private final AuthService authService;
 
-    @GetMapping("/members/kakao/login")
-    public LoginResultDto kakaoLogin(@RequestBody String code) {
-        Member member = loginService.kakaoLogin(code);
-
-        LoginResultDto loginResultDto = new LoginResultDto();
-        loginResultDto.setData(member);
-        return loginResultDto;
+    @GetMapping("/kakao/login")
+    public TokenDto kakaoLogin(@RequestBody KakaoLoginRequestDto kakaoLoginRequestDto) {
+        return authService.kakaoLogin(kakaoLoginRequestDto);
     }
 
 
-    @PostMapping("/members/signup")
-    public ResponseEntity signup(@RequestBody LoginRequestDto loginRequestDto) {
-        return loginService.signup(loginRequestDto);
-
-    }
+//    @PostMapping("/signup")
+//    public ResponseEntity signup(@RequestBody LoginRequestDto loginRequestDto) {
+//        return authService.signup(loginRequestDto);
+//
+//    }
 
 //    @GetMapping("/members/authorization")
 //    public void getAuthorizedCode() {
