@@ -57,7 +57,6 @@ public class KakaoOauth2 {
         return accessToken;
     }
 
-
     private KakaoUserInfo getUserInfoByToken(String accessToken) {
         //HttpHeader 오브젝트 추가
         HttpHeaders headers = new HttpHeaders();

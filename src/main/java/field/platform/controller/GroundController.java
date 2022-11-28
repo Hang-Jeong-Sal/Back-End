@@ -20,18 +20,18 @@ import org.springframework.web.bind.annotation.*;
 public class GroundController {
     private final GroundService groundService;
 
-    @GetMapping("api/grounds")
-    public GroundSearchResponseDto grounds(@RequestParam String dong) {
+    @GetMapping("/api/grounds")
+    public GroundSearchResponseDto grounds(@RequestParam(value = "dong", required = false) String dong) {
         GroundSearchResponseDto grounds = groundService.grounds(new GroundSearchConditionDto(dong));
         return grounds;
     }
 
-    @PostMapping("api/grounds")
+    @PostMapping("/api/grounds")
     public GroundPostResponseDto groundsPost(@RequestBody GroundPostRequestDto groundPostRequestDto) {
         return groundService.groundsPost(groundPostRequestDto);
     }
 
-    @GetMapping("api/grounds/{id}")
+    @GetMapping("/api/grounds/{id}")
     public GroundDetailResponseDto groundDetail(@PathVariable(name = "id") Long groundId) {
         return groundService.details(groundId);
     }

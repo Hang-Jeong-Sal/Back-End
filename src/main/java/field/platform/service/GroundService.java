@@ -43,7 +43,8 @@ public class GroundService{
     public GroundSearchResponseDto grounds(GroundSearchConditionDto groundsRequestDTO) {
         List<GroundSearchDataDto> search = groundRepository.search(groundsRequestDTO);
         List<Map<String, Object>> data = search.stream()
-                .map(this::createNewMap)
+                .map(searchData -> objectMapper.convertValue(searchData, Map.class))
+                .map(map -> (Map<String, Object>) map)
                 .collect(Collectors.toList());
         return GroundSearchResponseDto.builder()
                 .status(0)
@@ -51,17 +52,6 @@ public class GroundService{
                 .data(data).build();
     }
 
-    private Map<String, Object> createNewMap(GroundSearchDataDto groundSearchDataDto) {
-        Map<String, Object> object= objectMapper.convertValue(groundSearchDataDto, Map.class);
-        List<Image> byGroundId = imageRepository.findByGroundId((Long) object.get("id"));
-        List<String> imgUrls = new ArrayList<>();
-        for (Image image : byGroundId) {
-            imgUrls.add(image.getUrl());
-        }
-        object.put("pictures", imgUrls);
-        return object;
-
-    }
     @Transactional
     public GroundPostResponseDto groundsPost(GroundPostRequestDto groundPostRequestDto) {
         Optional<Member> byId = memberRepository.findById(groundPostRequestDto.getSeller());
@@ -92,7 +82,7 @@ public class GroundService{
             System.out.println("categories = " + categories);
             for (String category : categories) {
                 switch (category) {
-                    case "자투리텃밭" : case"주말농장": case "옥상정원": case "스쿨팜": case "베란다텃밭":
+                    case "spare" : case"weekly": case "rooftop": case "school": case "terrace":
                         categoryList.add(categoryRepository.findByCategoryName(CategoryName.of(category)));
                         break;
 //                    카테고리 오류반환
@@ -132,8 +122,7 @@ public class GroundService{
             return GroundDetailResponseDto.of(ground,
                     imgUrls.stream().map(Image::getUrl).collect(Collectors.toList()),
                     categories.stream()
-                            .map(groundCategoryRelation -> groundCategoryRelation.getCategory().getCategoryName()
-                                    .name())
+                            .map(groundCategoryRelation -> groundCategoryRelation.getCategory().toString())
                             .collect(Collectors.toList()));
 
         } else {

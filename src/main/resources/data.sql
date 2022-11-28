@@ -1,14 +1,15 @@
-insert into member(member_id, password, profile, username)
-VALUES (1, '1234', 'img.com', '김원표');
+insert into category(category_name)
+VALUES ('spare');
+insert into category(category_name)
+VALUES ('weekly');
+insert into category(category_name)
+VALUES ('rooftop');
+insert into category(category_name)
+VALUES ('school');
+insert into category(category_name)
+VALUES ('terrace');
 
-
-insert into category(category_id)
-VALUES ('자투리텃밭');
-insert into category(category_id)
-VALUES ('주말농장');
-insert into category(category_id)
-VALUES ('옥상정원');
-insert into category(category_id)
-VALUES ('스쿨팜');
-insert into category(category_id)
-VALUES ('베란다텃밭');
+insert into authority(authority_name)
+VALUES ('ROLE_KAKAO');
+insert into authority(authority_name)
+VALUES ('ROLE_USER');

@@ -1,21 +1,30 @@
 package field.platform.domain;
 
-public enum CategoryName {
-    자투리텃밭, 주말농장, 옥상정원, 스쿨팜, 베란다텃밭;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-    public static CategoryName of(String name) {
-        switch (name) {
-            case "자투리텃밭":
-                return 자투리텃밭;
-            case "주말농장":
-                return 주말농장;
-            case "옥상정원":
-                return 옥상정원;
-            case "스쿨팜":
-                return 스쿨팜;
-            case "베란다텃밭":
-                return 베란다텃밭;
+@Getter
+@RequiredArgsConstructor
+public enum CategoryName {
+    spare("spare"), weekly("weekly"), rooftop("rooftop"), school("school"), terrace("terrace");
+    private final String key;
+
+    public static CategoryName of(String string) {
+        switch (string) {
+            case "spare" :
+                return spare;
+            case "weekly":
+                return weekly;
+            case "rooftop":
+                return rooftop;
+            case "school":
+                return school;
+            case "terrace":
+                return terrace;
+            default:
+                return null;
         }
-        return null;
     }
+
+
 }
