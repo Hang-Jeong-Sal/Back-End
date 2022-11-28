@@ -10,6 +10,7 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -22,23 +23,11 @@ public class CustomKakaoIdAuthProvider implements AuthenticationProvider {
 
     private final PasswordEncoder passwordEncoder;
     private final CustomKakaoAuthService customKakaoAuthService;
-    private GrantedAuthoritiesMapper authoritiesMapper;
-    protected void additionalAuthenticationChecks(UserDetails userDetails, CustomKakaoIdAuthToken authentication) throws BizException {
-        log.debug("additionalAuthenticationChecks authentication = {}",authentication);
+    private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
-        if (authentication.getCredentials() == null) {
-            log.debug("additionalAuthenticationChecks is null !");
-            throw new BizException(MemberException.NOT_FOUND_PASSWORD);
-        }
-        String presentedPassword = authentication.getCredentials().toString();
-        log.debug("authentication.presentedPassword = {}",presentedPassword);
-
-        if (!this.passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
-            throw new BizException(MemberException.WRONG_PASSWORD);
-        }
-    }
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        System.out.println("authenticate 오나요?"+ authentication.getName());
         UserDetails user = null;
         try {
             user = retrieveUser(authentication.getName());
@@ -47,10 +36,13 @@ public class CustomKakaoIdAuthProvider implements AuthenticationProvider {
         }
 
         Object principalToReturn = user;
+        log.info("만들기전");
         CustomKakaoIdAuthToken result = new CustomKakaoIdAuthToken(principalToReturn, authentication.getCredentials()
                 , this.authoritiesMapper.mapAuthorities(user.getAuthorities()));
-        additionalAuthenticationChecks(user, result);
+
+        log.info("result");
         result.setDetails(authentication.getDetails());
+
         return result;
     }
 
@@ -62,6 +54,7 @@ public class CustomKakaoIdAuthProvider implements AuthenticationProvider {
     protected final UserDetails retrieveUser(String kakaoId) throws BizException {
         try {
             UserDetails loadedUser = customKakaoAuthService.loadUserByUsername(kakaoId);
+            System.out.println("loadedUser = " + loadedUser);
             if (loadedUser == null) {
                 throw new InternalAuthenticationServiceException(
                         "UserDetailsService returned null, which is an interface contract violation");
