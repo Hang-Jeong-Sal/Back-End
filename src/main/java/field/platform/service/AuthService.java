@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.security.authentication.AuthenticationManager;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,6 +48,7 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthService {
+    private final EntityManager em;
     private final AuthenticationManager authenticationManager;
     public static final String BEARER_PREFIX = "Bearer ";
 
@@ -54,7 +56,6 @@ public class AuthService {
     private final AuthorityRepository authorityRepository;
     private final MemberRepository memberRepository;
     private final KakaoOauth2 kakaoOauth2;
-    //private final AuthenticationManager authenticationManager;
     private final CustomKakaoAuthService customKakaoAuthService;
     private final RefreshTokenRepository refreshTokenRepository;
     private String resolveToken(String bearerToken) {
@@ -79,7 +80,7 @@ public class AuthService {
         return buffer.toString();
     }
     @Transactional
-    public TokenDto kakaoLogin(KakaoLoginRequestDto kakaoLoginRequestDto) {
+    public KakaoUserInfo kakaoLogin(KakaoLoginRequestDto kakaoLoginRequestDto) {
         String authorizedCode = kakaoLoginRequestDto.getAuthorizedCode();
         //kakakOAuth2를 통해 카카오 사용자 정보 조회
 //        인가코드로 member아직 안만든 경우구현해야함
@@ -102,31 +103,36 @@ public class AuthService {
             Member newMember = new Member(kakaoId, username, email, profile, authorities);
             memberRepository.save(newMember);
         }
+        return userInfo;
+    }
 
-        CustomKakaoIdAuthToken customKakaoIdAuthToken = new CustomKakaoIdAuthToken(kakaoId, "");
-        log.info("1");
-
+    @Transactional
+    public TokenDto createToken (KakaoUserInfo kakaoUserInfo){
+        Long kakaoId = kakaoUserInfo.getId();
+        CustomKakaoIdAuthToken customKakaoIdAuthToken = new CustomKakaoIdAuthToken(String.valueOf(kakaoId), "");
         Authentication authentication = authenticationManager.authenticate(customKakaoIdAuthToken);
-        log.debug("Authentication = {}",authentication);
-
+        log.info("authentication");
         Member findMember = customKakaoAuthService.getMember(kakaoId);
-        log.info("3");
 
         String accessToken = tokenProvider.createAccessTokenByKakaoId(kakaoId, findMember.getAuthorities());
         if (refreshTokenRepository.existsByKey(String.valueOf(kakaoId))) {
-            refreshTokenRepository.deleteRefreshToken(refreshTokenRepository.findByKey(email).orElseThrow(()->new BizException(MemberException.NOT_FOUND_USER)));
+            refreshTokenRepository.deleteRefreshToken(refreshTokenRepository.findByKey(String.valueOf(kakaoId))
+                    .orElseThrow(() -> new BizException(MemberException.NOT_FOUND_USER)));
         }
         String newRefreshToken = tokenProvider.createRefreshToken(kakaoId, findMember.getAuthorities());
 
         refreshTokenRepository.saveRefreshToken(
                 RefreshToken.builder()
-                        .key(email)
+                        .key(String.valueOf(kakaoId))
                         .value(newRefreshToken)
                         .build()
         );
+        findMember.setAccessToken(accessToken);
         return tokenProvider.createTokenDTO(accessToken, newRefreshToken);
-
     }
+
+
+
 //    @Transactional
 //    public ResponseEntity signup(LoginRequestDto requestDto) {
 //        if (memberRepository.findByEmail(requestDto.getEmail()).isPresent()) {

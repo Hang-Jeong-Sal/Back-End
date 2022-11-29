@@ -1,8 +1,10 @@
 package field.platform.dto.data.ground;
 
 import com.querydsl.core.annotations.QueryProjection;
+import field.platform.domain.Category;
 import field.platform.domain.Ground;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,9 +25,13 @@ public class GroundSearchDataDto {
     private List<String> categories;
 
     public static GroundSearchDataDto of(Ground ground) {
+        List<Category> categories = ground.getCategory();
+        List<String> collectCategories = categories.stream()
+                .map(Category::getCategoryName)
+                .collect(Collectors.toList());
         return new GroundSearchDataDto(ground.getId(), ground.getTitle(), ground.getAddress(),
                 ground.getPrice(), ground.getAddress1DepthName(), ground.getAddress2DepthName(),
-                ground.getAddress3DepthName(), ground.getAreaSize(), ground.getImgUrl(), ground.getLikes().size(), ground.getCategory());
+                ground.getAddress3DepthName(), ground.getAreaSize(), ground.getImgUrl(), ground.getLikes().size(), collectCategories);
     }
 
     @QueryProjection

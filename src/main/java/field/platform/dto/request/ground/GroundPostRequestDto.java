@@ -13,7 +13,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroundPostRequestDto {
-    private Long seller;
     private List<String> imgUrl;
     private List<String> category;
     private String address;

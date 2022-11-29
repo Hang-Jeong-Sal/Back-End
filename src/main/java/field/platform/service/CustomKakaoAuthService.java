@@ -27,13 +27,14 @@ public class CustomKakaoAuthService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String kakaoId) throws UsernameNotFoundException {
-        memberRepository.findByKakaoId(Long.getLong(kakaoId))
+
+        return memberRepository.findByKakaoId(Long.valueOf(kakaoId))
                 .map(this::createUserDetails)
                 .orElseThrow(() -> new BizException(MemberException.NOT_FOUND_USER));
-        return null;
+
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Member getMember(Long kakaoId) throws BizException {
         return memberRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new BizException(MemberException.NOT_FOUND_USER));

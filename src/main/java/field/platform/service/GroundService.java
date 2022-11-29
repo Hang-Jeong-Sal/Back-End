@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -53,60 +54,70 @@ public class GroundService{
     }
 
     @Transactional
-    public GroundPostResponseDto groundsPost(GroundPostRequestDto groundPostRequestDto) {
-        Optional<Member> byId = memberRepository.findById(groundPostRequestDto.getSeller());
+    public GroundPostResponseDto groundsPost(String bearerToken, GroundPostRequestDto groundPostRequestDto) {
+        if (StringUtils.hasText(bearerToken)) {
+            Optional<Member> byId = memberRepository.findByAccessToken(bearerToken);
 //        판매자가 존재하는 경우
-        if (byId.isPresent()) {
-            String[] splitStartDate = getDate(groundPostRequestDto.getRenderStartDate());
-            String[] splitFinishDate = getDate(groundPostRequestDto.getRenderFinishDate());
-            Ground createGround = Ground.builder()
-                    .content(groundPostRequestDto.getContent())
-                    .title(groundPostRequestDto.getTitle())
-                    .address(groundPostRequestDto.getAddress())
-                    .price(groundPostRequestDto.getPrice())
-                    .status(GroundStatus.ONSALE)
-                    .startDate(LocalDateTime.of(Integer.parseInt(splitStartDate[0]), Integer.parseInt(splitStartDate[1]),
-                            Integer.parseInt(splitStartDate[2]),0,0))
-                    .finishDate(LocalDateTime.of(Integer.parseInt(splitFinishDate[0]), Integer.parseInt(splitFinishDate[1]),
-                            Integer.parseInt(splitFinishDate[2]),0,0))
-                    .areaSize(groundPostRequestDto.getArea())
-                    .latitude(groundPostRequestDto.getLatitude())
-                    .longitude(groundPostRequestDto.getLatitude())
-                    .address1DepthName(groundPostRequestDto.getAddress1DepthName())
-                    .address2DepthName(groundPostRequestDto.getAddress2DepthName())
-                    .address3DepthName(groundPostRequestDto.getAddress3DepthName())
-                    .build();
+            if (byId.isPresent()) {
+                String[] splitStartDate = getDate(groundPostRequestDto.getRenderStartDate());
+                String[] splitFinishDate = getDate(groundPostRequestDto.getRenderFinishDate());
+                Ground createGround = Ground.builder()
+                        .content(groundPostRequestDto.getContent())
+                        .title(groundPostRequestDto.getTitle())
+                        .address(groundPostRequestDto.getAddress())
+                        .price(groundPostRequestDto.getPrice())
+                        .status(GroundStatus.ONSALE)
+                        .startDate(LocalDateTime.of(Integer.parseInt(splitStartDate[0]),
+                                Integer.parseInt(splitStartDate[1]),
+                                Integer.parseInt(splitStartDate[2]), 0, 0))
+                        .finishDate(LocalDateTime.of(Integer.parseInt(splitFinishDate[0]),
+                                Integer.parseInt(splitFinishDate[1]),
+                                Integer.parseInt(splitFinishDate[2]), 0, 0))
+                        .areaSize(groundPostRequestDto.getArea())
+                        .latitude(groundPostRequestDto.getLatitude())
+                        .longitude(groundPostRequestDto.getLatitude())
+                        .address1DepthName(groundPostRequestDto.getAddress1DepthName())
+                        .address2DepthName(groundPostRequestDto.getAddress2DepthName())
+                        .address3DepthName(groundPostRequestDto.getAddress3DepthName())
+                        .build();
 //            카테고리 만들기
-            List<String> categories = groundPostRequestDto.getCategory();
-            List<Category> categoryList = new ArrayList<>();
-            System.out.println("categories = " + categories);
-            for (String category : categories) {
-                switch (category) {
-                    case "spare" : case"weekly": case "rooftop": case "school": case "terrace":
-                        categoryList.add(categoryRepository.findByCategoryName(CategoryName.of(category)));
-                        break;
+                List<String> categories = groundPostRequestDto.getCategory();
+                List<Category> categoryList = new ArrayList<>();
+                System.out.println("categories = " + categories);
+                for (String category : categories) {
+                    switch (category) {
+                        case "spare":
+                        case "weekly":
+                        case "rooftop":
+                        case "school":
+                        case "terrace":
+                            categoryList.add(categoryRepository.findByCategoryName(CategoryName.of(category)));
+                            break;
 //                    카테고리 오류반환
-                    default:
-                        return new GroundPostResponseDto(1);
+                        default:
+                            return new GroundPostResponseDto(1);
+                    }
                 }
-            }
-            for (Category category: categoryList) {
-                groundCategoryRelationRepository.save(new GroundCategoryRelation(createGround, category));
-            }
+                for (Category category : categoryList) {
+                    groundCategoryRelationRepository.save(new GroundCategoryRelation(createGround, category));
+                }
 
-            for (String url : groundPostRequestDto.getImgUrl()) {
-                imageRepository.save(new Image(createGround, url));
-            }
-            createGround.setSeller(byId.get());
-            groundRepository.save(createGround);
-            Map<String, Object> map = objectMapper.convertValue(GroundDetailResponseDto.of(createGround,
-                    groundPostRequestDto.getImgUrl(), categories), Map.class);
-            return new GroundPostResponseDto(0);
+                for (String url : groundPostRequestDto.getImgUrl()) {
+                    imageRepository.save(new Image(createGround, url));
+                }
+                createGround.setSeller(byId.get());
+                groundRepository.save(createGround);
+                Map<String, Object> map = objectMapper.convertValue(GroundDetailResponseDto.of(createGround,
+                        groundPostRequestDto.getImgUrl(), categories), Map.class);
+                return new GroundPostResponseDto(0);
 
-        }
+            }
 //        판매자가 존재하지 않는 경우
-        else{
-            return new GroundPostResponseDto(2);
+            else {
+                return new GroundPostResponseDto(2);
+            }
+        } else {
+            return new GroundPostResponseDto(3);
         }
 
     }

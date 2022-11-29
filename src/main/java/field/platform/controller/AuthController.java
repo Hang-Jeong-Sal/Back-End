@@ -27,7 +27,7 @@ public class AuthController {
 
     @GetMapping("/kakao/login")
     public TokenDto kakaoLogin(@RequestBody KakaoLoginRequestDto kakaoLoginRequestDto) {
-        return authService.kakaoLogin(kakaoLoginRequestDto);
+        return authService.createToken(authService.kakaoLogin(kakaoLoginRequestDto));
 
     }
 }

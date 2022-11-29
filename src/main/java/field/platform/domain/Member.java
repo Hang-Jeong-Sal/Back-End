@@ -27,7 +27,7 @@ public class Member {
     private String password;
     private String profile;
 
-
+    private String accessToken;
 
     //add for login
     @ManyToMany(cascade = CascadeType.ALL)
@@ -61,5 +61,8 @@ public class Member {
         this.authorities = authorities;
     }
 
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 }
 
