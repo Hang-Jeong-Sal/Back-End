@@ -7,6 +7,7 @@ import field.platform.dto.data.ground.GroundSearchDataDto;
 import field.platform.dto.response.member.MemberResponseDto;
 import field.platform.repository.GroundRepository;
 import field.platform.repository.MemberRepository;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class MemberService {
 
     public MemberResponseDto sellerDetail(Long memberId){
         Optional<Member> findMemberById = memberRepository.findById(memberId);
-        if(findMemberById.isPresent()){
+        if (findMemberById.isPresent()) {
             Member member = findMemberById.get();
             Long id = member.getId();
             String username = member.getUsername();
@@ -31,7 +32,7 @@ public class MemberService {
             int size = member.getGrounds().size();
 
             return new MemberResponseDto(id, username, profile, size);
-        }else{
+        } else {
             return new MemberResponseDto(null, null, null, null);
         }
     }
@@ -39,17 +40,14 @@ public class MemberService {
     public List<GroundSearchDataDto> getSellingGround(Long memberId) {
         Member member = memberRepository.findById(memberId).get();
         List<Ground> sellingGrounds = groundRepository.findAllByMember(member);
-        List<GroundSearchDataDto> result = new ArrayList<>();
-        for (Ground ground : sellingGrounds) {
-            GroundSearchDataDto groundSearchDataDto = GroundSearchDataDto.of(ground);
-            result.add(groundSearchDataDto);
-        }
-        return result;
+        return sellingGrounds.stream()
+                .map(GroundSearchDataDto::of)
+                .collect(Collectors.toList());
+
     }
 
     public String getUsername(Long memberId) {
-        String username = memberRepository.findById(memberId).get().getUsername();
-        return username;
+        return memberRepository.findById(memberId).get().getUsername();
     }
 
 }
