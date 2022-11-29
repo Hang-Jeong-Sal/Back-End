@@ -93,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // WebSecurit
                 .authorizeRequests() // http servletRequest 를 사용하는 요청들에 대한 접근제한을 설정
                 .antMatchers("/auth/**", "/api/grounds").permitAll()
                 .antMatchers("/v3/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll() // swagger3
-        //        .anyRequest().authenticated() ; // 나머지 API 는 전부 인증 필요
+                //        .anyRequest().authenticated() ; // 나머지 API 는 전부 인증 필요
                 .anyRequest().permitAll();
         // 인증이 필요한 url만 나중에 따로 등록을 하자. 일단은 전부 허용. 예를들어 마이페이지.
 
