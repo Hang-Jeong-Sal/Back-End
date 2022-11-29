@@ -30,6 +30,12 @@ public class AuthController {
         return authService.createToken(authService.kakaoLogin(kakaoLoginRequestDto));
 
     }
+
+    @PostMapping("/kakao/logout")
+    public ResponseEntity kakaoLogout(@RequestHeader(name = "Authorization") String bearerToken) {
+        System.out.println("bearerToken = " + bearerToken);
+        return authService.logout(bearerToken);
+    }
 }
 
 //    @PostMapping("/signup")

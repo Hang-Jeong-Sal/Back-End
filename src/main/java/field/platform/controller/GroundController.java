@@ -27,7 +27,7 @@ public class GroundController {
     }
 
     @PostMapping("/api/grounds")
-    public GroundPostResponseDto groundsPost(@RequestHeader("Authorization") String bearerToken, @RequestBody GroundPostRequestDto groundPostRequestDto) {
+    public GroundPostResponseDto groundsPost(@RequestHeader(name = "Authorization", required = false) String bearerToken, @RequestBody GroundPostRequestDto groundPostRequestDto) {
         return groundService.groundsPost(bearerToken, groundPostRequestDto);
     }
 

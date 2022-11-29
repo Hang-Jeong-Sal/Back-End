@@ -131,6 +131,16 @@ public class AuthService {
         return tokenProvider.createTokenDTO(accessToken, newRefreshToken);
     }
 
+    public ResponseEntity logout(String bearerToken){
+        String accessToken = resolveToken(bearerToken);
+
+        Long kakaoIdByToken = tokenProvider.getMemberKakaoIdByToken(accessToken);
+        RefreshToken refreshToken = refreshTokenRepository.findByKey(String.valueOf(kakaoIdByToken))
+                .orElseThrow(() -> new BizException(MemberException.LOGOUT_MEMBER));
+
+        refreshTokenRepository.deleteRefreshToken(refreshToken);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 
 //    @Transactional
