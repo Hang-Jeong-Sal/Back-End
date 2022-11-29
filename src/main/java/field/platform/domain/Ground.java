@@ -105,9 +105,9 @@ public class Ground extends Timestamped {
         this.member = member;
     }
 
-    public List<Category> getCategory() {
+    public List<String> getCategory() {
         return groundCategoryRelations.stream()
-                .map(groundCategoryRelation -> groundCategoryRelation.getCategory())
+                .map(groundCategoryRelation -> groundCategoryRelation.getCategory().getCategoryName())
                 .collect(Collectors.toList());
 
     }

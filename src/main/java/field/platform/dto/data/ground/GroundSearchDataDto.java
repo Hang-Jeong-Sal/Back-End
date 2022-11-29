@@ -25,13 +25,10 @@ public class GroundSearchDataDto {
     private List<String> categories;
 
     public static GroundSearchDataDto of(Ground ground) {
-        List<Category> categories = ground.getCategory();
-        List<String> collectCategories = categories.stream()
-                .map(Category::getCategoryName)
-                .collect(Collectors.toList());
+        List<String> categories = ground.getCategory();
         return new GroundSearchDataDto(ground.getId(), ground.getTitle(), ground.getAddress(),
                 ground.getPrice(), ground.getAddress1DepthName(), ground.getAddress2DepthName(),
-                ground.getAddress3DepthName(), ground.getAreaSize(), ground.getImgUrl(), ground.getLikes().size(), collectCategories);
+                ground.getAddress3DepthName(), ground.getAreaSize(), ground.getImgUrl(), ground.getLikes().size(), categories);
     }
 
     @QueryProjection
