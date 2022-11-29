@@ -10,18 +10,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/api/members/{id}")
     public MemberResponseDto sellerDetail(@PathVariable(name = "id") Long memberId){
-        return sellerDetail(memberId);
+        return memberService.sellerDetail(memberId);
     }
 
-    @GetMapping("api/members/{member_id}/grounds/")
+    @GetMapping("/api/members/{member_id}/grounds")
     public MemberSellingResponseDto getSellingGround(@PathVariable(name = "member_id") Long memberId) {
         List<GroundSearchDataDto> sellingGrounds = memberService.getSellingGround(memberId);
         MemberSellingResponseDto memberSellingResponseDto = new MemberSellingResponseDto();
