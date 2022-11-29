@@ -30,5 +30,6 @@ public class MemberController {
         memberSellingResponseDto.setData(sellingGrounds);
         return memberSellingResponseDto;
     }
+
 }
 
