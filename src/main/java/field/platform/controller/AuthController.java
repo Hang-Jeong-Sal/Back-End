@@ -8,6 +8,7 @@ import field.platform.dto.login.KakaoLoginRequestDto;
 
 import field.platform.dto.login.LoginResultDto;
 import field.platform.dto.login.LoginRequestDto;
+import field.platform.repository.MemberRepository;
 import field.platform.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthService authService;
-
+    private final MemberRepository memberRepository;
 
     @PostMapping("/kakao/login")
     public TokenDto kakaoLogin(@RequestBody KakaoLoginRequestDto kakaoLoginRequestDto) {
@@ -35,6 +36,12 @@ public class AuthController {
     public ResponseEntity kakaoLogout(@RequestHeader(name = "Authorization") String bearerToken) {
         System.out.println("bearerToken = " + bearerToken);
         return authService.logout(bearerToken);
+    }
+
+    @GetMapping("")
+    public Long getByAccessToken(@RequestBody String bearerToken) {
+        System.out.println("bearerToken = " + memberRepository.findByAccessToken(bearerToken).get());
+        return memberRepository.findByAccessToken(bearerToken).get().getId();
     }
 }
 
