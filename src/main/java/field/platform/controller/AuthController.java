@@ -39,8 +39,7 @@ public class AuthController {
     }
 
     @GetMapping("")
-    public Long getByAccessToken(@RequestBody String bearerToken) {
-        System.out.println("bearerToken = " + memberRepository.findByAccessToken(bearerToken).get());
+    public Long getByAccessToken(@RequestHeader(name = "Authorization") String bearerToken) {
         return memberRepository.findByAccessToken(bearerToken).get().getId();
     }
 }
