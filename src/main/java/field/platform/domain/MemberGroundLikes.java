@@ -29,4 +29,9 @@ public class MemberGroundLikes {
         this.member = member;
         this.ground = ground;
     }
+
+    public Ground getGround() {
+        return ground;
+    }
+
 }

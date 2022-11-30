@@ -13,5 +13,4 @@ public interface GroundRepository extends JpaRepository<Ground, Long>,GroundRepo
     List<Ground> findAllByAddress3DepthName(String address3DepthName);
 
     List<Ground> findAllByMember(Member member);
-    
 }

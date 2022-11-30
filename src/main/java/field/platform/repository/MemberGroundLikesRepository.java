@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface MemberGroundLikesRepository extends JpaRepository<MemberGroundLikes, Long> {
     Optional<MemberGroundLikes> findByGroundAndMember(Ground ground, Member member);
 
-    List<Ground> findAllByMember(Member member);
+    List<MemberGroundLikes> findAllByMember(Member member);
 }
