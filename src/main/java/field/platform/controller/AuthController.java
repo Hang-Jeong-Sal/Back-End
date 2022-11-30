@@ -10,6 +10,7 @@ import field.platform.dto.login.LoginResultDto;
 import field.platform.dto.login.LoginRequestDto;
 import field.platform.repository.MemberRepository;
 import field.platform.service.AuthService;
+import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +40,10 @@ public class AuthController {
     }
 
     @GetMapping("")
-    public Long getByAccessToken(@RequestHeader(name = "Authorization") String bearerToken) {
-        return memberRepository.findByAccessToken(bearerToken).get().getId();
+    public Map getByAccessToken(@RequestHeader(name = "Authorization") String bearerToken) {
+        Map<String, Long> map = new HashMap<>();
+        map.put("id", memberRepository.findByAccessToken(bearerToken).get().getId());
+        return map;
     }
 }
 
