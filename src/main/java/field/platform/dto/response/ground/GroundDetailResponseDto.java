@@ -23,17 +23,16 @@ public class GroundDetailResponseDto {
     private String renderFinishDate;
     private String introduction;
     private List<String> category;
-    private Map<String, Double> location;
+    private double latitude;
+    private double longitude;
     private String create_at;
 
     public static GroundDetailResponseDto of(Ground ground, List<String> imgUrl, List<String> categories) {
-        Map<String, Double> location = new HashMap<>();
-        location.put("x", ground.getLatitude());
-        location.put("y", ground.getLongitude());
-        return new GroundDetailResponseDto(0,imgUrl, ground.getMember().getId(), ground.getMember().getUsername(),
+        return new GroundDetailResponseDto(0, imgUrl, ground.getMember().getId(), ground.getMember().getUsername(),
                 ground.getAddress(), ground.getAreaSize(), ground.getPrice(),
                 localDateTimeToString(ground.getStartDate()), localDateTimeToString(ground.getFinishDate()),
-                ground.getContent(), categories, location, ground.getCreateAt().toString());
+                ground.getContent(), categories, ground.getLatitude(), ground.getLongitude(),
+                ground.getCreateAt().toString());
 
     }
 
